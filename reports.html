@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="images/Logo.svg">
+  <title>Agriculture Management Dashboard - Reports</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Wrapper for sidebar + main content -->
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div id="sidebar" class="border-end d-flex flex-column">
+      <!-- Logo Section -->
+      <div class="d-flex align-items-center justify-content-center gap-2 border-bottom py-4">
+        <img src="images/Logo.png" alt="AgriMarket Logo" class="img-fluid" style="max-width: 40px;">
+        <div class="d-flex flex-column text-start logo-content">
+          <h6 class="fw-normal text-success mb-0"><span>AgriMarket</span></h6>
+          <p class="text-success mb-0" style="font-size: 12px;"><span>Admin Dashboard</span></p>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation -->
+      <ul class="nav flex-column px-3 py-4 sidebar-nav flex-grow-1">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link" title="Dashboard"><i class="ri-dashboard-line"></i>
+            <span>Dashboard</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="crops.html" class="nav-link" title="Crops"><i class="ri-flower-line"></i> <span>Crops</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="farmers.html" class="nav-link" title="Farmers"><i class="ri-user-line"></i>
+            <span>Farmers</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="users.html" class="nav-link" title="Users"><i class="ri-group-line"></i> <span>Users</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="reports.html" class="nav-link active" title="Reports"><i class="ri-bar-chart-2-line"></i>
+            <span>Reports</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="settings.html" class="nav-link" title="Settings"><i class="ri-settings-line"></i>
+            <span>Settings</span></a>
+        </li>
+      </ul>
+
+      <!-- User Section -->
+      <div class="d-flex align-items-center justify-content-center gap-2 border-top py-3">
+        <div
+          class="d-flex align-items-center justify-content-center bg-success-subtle text-success border border-success rounded-circle"
+          style="width: 50px; height: 50px;">
+          <span id="sidebarInitials" class="fw-semibold small"></span>
+        </div>
+        <div class="d-flex flex-column text-start">
+          <h6 id="sidebarName" class="fw-normal text-success mb-0"></h6>
+          <p id="sidebarEmail" class="text-success mb-0 small"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content" class="flex-grow-1">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light border-bottom border-1 p-2">
+      <div class="container-fluid">
+        <span class="navbar-brand">Agriculture Dashboard</span>
+        <div class="d-flex ms-auto">
+          <button class="btn me-1"><i class="ri-notification-2-line"></i></button>
+          <button id="toggle-btn" class="btn me-3"><i class="ri-menu-line"></i></button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Reports Section -->
+    <div class="container mt-4">
+      <h3>Agriculture Reports</h3>
+
+      <!-- Search + Add Report -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <input type="text" id="searchReports" class="form-control w-50 custom-input"
+          placeholder="Search reports...">
+        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addReportModal">
+          Add Report
+        </button>
+      </div>
+
+      <!-- Reports Table -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="reports-table"></tbody>
+      </table>
+
+      <!-- Chart Section -->
+      <div class="mt-5">
+        <h5>Crop Yield Overview</h5>
+        <canvas id="reportsChart" height="100"></canvas>
+      </div>
+    </div>
+
+    <!-- Add Report Modal -->
+    <div class="modal fade" id="addReportModal" tabindex="-1" aria-labelledby="addReportModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="reportForm">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addReportModalLabel">Add New Report</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <!-- Report Title -->
+              <div class="mb-3">
+                <label for="reportTitle" class="form-label">Report Title</label>
+                <input type="text" id="reportTitle" class="form-control" placeholder="Enter report title" required>
+              </div>
+
+              <!-- Report Category -->
+              <div class="mb-3">
+                <label for="reportCategory" class="form-label">Category</label>
+                <input type="text" id="reportCategory" class="form-control" placeholder="Enter category" required>
+              </div>
+
+              <!-- Report Date -->
+              <div class="mb-3">
+                <label for="reportDate" class="form-label">Date</label>
+                <input type="date" id="reportDate" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="submit" id="reportSubmitBtn" class="btn btn-success">Add Report</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/reports.js"></script>
+
+</body>
+
+</html>

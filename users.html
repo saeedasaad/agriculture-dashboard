@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/Logo.svg">
+    <title>User Management | Agriculture Dashboard</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Wrapper for sidebar + main content -->
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div id="sidebar" class="border-end d-flex flex-column">
+            <!-- Logo Section -->
+            <div class="d-flex align-items-center justify-content-center gap-2 border-bottom py-4">
+                <img src="images/Logo.png" alt="AgriMarket Logo" class="img-fluid" style="max-width: 40px;">
+                <div class="d-flex flex-column text-start logo-content">
+                    <h6 class="fw-normal text-success mb-0"><span>AgriMarket</span></h6>
+                    <p class="text-success mb-0" style="font-size: 12px;"><span>Admin Dashboard</span></p>
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation -->
+            <ul class="nav flex-column px-3 py-4 sidebar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link" title="Dashboard"><i class="ri-dashboard-line"></i><span>Dashboard</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="crops.html" class="nav-link" title="Crops"><i class="ri-flower-line"></i><span>Crops</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="farmers.html" class="nav-link" title="Farmers"><i class="ri-user-line"></i><span>Farmers</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="users.html" class="nav-link active" title="Users"><i class="ri-group-line"></i><span>Users</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="reports.html" class="nav-link" title="Reports"><i class="ri-bar-chart-2-line"></i><span>Reports</span></a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link" title="Settings"><i class="ri-settings-line"></i><span>Settings</span></a>
+                </li>
+            </ul>
+
+            <!-- User Section -->
+            <div class="d-flex align-items-center justify-content-center gap-2 border-top py-3">
+                <div class="d-flex align-items-center justify-content-center bg-success-subtle text-success border border-success rounded-circle"
+                    style="width: 50px; height: 50px;">
+                    <span id="sidebarInitials" class="fw-semibold small"></span>
+                </div>
+                <div class="d-flex flex-column text-start">
+                    <h6 id="sidebarName" class="fw-normal text-success mb-0"></h6>
+                    <p id="sidebarEmail" class="text-success mb-0 small"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="flex-grow-1" style="width: 100%;">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light border-bottom border-1 p-2">
+            <div class="container-fluid">
+                <span class="navbar-brand">Agriculture Dashboard</span>
+                <div class="d-flex ms-auto">
+                    <button class="btn me-1"><i class="ri-notification-2-line"></i></button>
+                    <button id="toggle-btn" class="btn me-3"><i class="ri-menu-line"></i></button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- User Management Section -->
+        <div class="container mt-4 mb-4">
+            <h3>User Management</h3>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <input type="text" id="searchUsers" class="form-control w-50 custom-input"
+                    placeholder="Search users...">
+                <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                    Add User
+                </button>
+            </div>
+
+            <!-- User Table -->
+            <table class="table table-bordered">
+                <thead class="">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="userForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Name</label>
+                            <input type="text" id="userName" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" id="userEmail" class="form-control" required>
+                        </div>
+
+                        <!-- Role (custom dropdown) -->
+                        <div class="mb-3">
+                            <label for="userRole" class="form-label">Role</label>
+                            <div class="select-container">
+                                <div class="custom-select" id="roleSelect">
+                                    <div class="selected">Select Role <i class="ri-arrow-drop-down-line"></i></div>
+                                    <div class="options">
+                                        <div class="option" data-value="Admin">Admin</div>
+                                        <div class="option" data-value="Farmer">Farmer</div>
+                                        <div class="option" data-value="Viewer">Viewer</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="userRole" name="userRole" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="userSubmitBtn" class="btn btn-success">Add User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editUserIndex">
+                        <div class="mb-3">
+                            <label for="editUserName" class="form-label">Name</label>
+                            <input type="text" id="editUserName" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editUserEmail" class="form-label">Email</label>
+                            <input type="email" id="editUserEmail" class="form-control" required>
+                        </div>
+
+                        <!-- Role  -->
+                        <div class="mb-3">
+                            <label for="editUserRole" class="form-label">Role</label>
+                            <div class="select-container">
+                                <div class="custom-select" id="roleSelectEdit">
+                                    <div class="selected">Select Role <i class="ri-arrow-drop-down-line"></i></div>
+                                    <div class="options">
+                                        <div class="option" data-value="Admin">Admin</div>
+                                        <div class="option" data-value="Farmer">Farmer</div>
+                                        <div class="option" data-value="Viewer">Viewer</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="editUserRole" name="editUserRole" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Update User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/users.js"></script>
+</body>
+
+</html>

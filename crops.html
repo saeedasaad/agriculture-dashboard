@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="images/Logo.svg">
+  <title>Agriculture Management Dashboard - Crops</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Remix Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <!-- Wrapper for sidebar + main content -->
+  <div class="d-flex">
+    <!-- Sidebar -->
+    <div id="sidebar" class="border-end d-flex flex-column">
+      <!-- Logo Section -->
+      <div class="d-flex align-items-center justify-content-center gap-2 border-bottom py-4">
+        <img src="images/Logo.png" alt="AgriMarket Logo" class="img-fluid" style="max-width: 40px;">
+        <div class="d-flex flex-column text-start logo-content">
+          <h6 class="fw-normal text-success mb-0"><span>AgriMarket</span></h6>
+          <p class="text-success mb-0" style="font-size: 12px;"><span>Admin Dashboard</span></p>
+        </div>
+      </div>
+
+      <!-- Sidebar Navigation -->
+      <ul class="nav flex-column px-3 py-4 sidebar-nav flex-grow-1">
+        <li class="nav-item">
+          <a href="index.html" class="nav-link" title="Dashboard"><i class="ri-dashboard-line"></i><span>Dashboard</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="crops.html" class="nav-link active" title="Crops"><i class="ri-flower-line"></i><span>Crops</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="farmers.html" class="nav-link" title="Farmers"><i class="ri-user-line"></i> <span>Farmers</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="users.html" class="nav-link" title="Users"><i class="ri-group-line"></i> <span>Users</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="reports.html" class="nav-link" title="Reports"><i class="ri-bar-chart-2-line"></i><span>Reports</span></a>
+        </li>
+        <li class="nav-item">
+          <a href="settings.html" class="nav-link" title="Settings"><i class="ri-settings-line"></i><span>Settings</span></a>
+        </li>
+      </ul>
+
+      <!-- User Section -->
+      <div class="d-flex align-items-center justify-content-center gap-2 border-top py-3">
+        <div
+          class="d-flex align-items-center justify-content-center bg-success-subtle text-success border border-success rounded-circle"
+          style="width: 50px; height: 50px;">
+          <span id="sidebarInitials" class="fw-semibold small"></span>
+        </div>
+        <div class="d-flex flex-column text-start">
+          <h6 id="sidebarName" class="fw-normal text-success mb-0"></h6>
+          <p id="sidebarEmail" class="text-success mb-0 small"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content" class="flex-grow-1">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light border-bottom border-1 p-2">
+      <div class="container-fluid">
+        <span class="navbar-brand">Agriculture Dashboard</span>
+        <div class="d-flex ms-auto">
+          <button class="btn me-1"><i class="ri-notification-2-line"></i></button>
+          <button id="toggle-btn" class="btn me-3"><i class="ri-menu-line"></i></button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Crops Table -->
+    <div class="container mt-4">
+      <h3>Crops Management</h3>
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <input type="text" id="search" class="form-control w-50 custom-input" placeholder="Search crops...">
+        <!-- Button to open modal -->
+        <button class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#addCropModal">
+          Add Crop
+        </button>
+      </div>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Season</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="crops-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Add Crop Modal -->
+  <div class="modal fade" id="addCropModal" tabindex="-1" aria-labelledby="addCropModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="cropForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addCropModalLabel">Add New Crop</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <!-- Crop Name -->
+            <div class="mb-3">
+              <label for="cropName" class="form-label">Crop Name</label>
+              <input type="text" id="cropName" class="form-control" placeholder="Enter crop name" required>
+            </div>
+
+            <!-- Crop Type (custom dropdown) -->
+            <div class="mb-3">
+              <label for="cropType" class="form-label">Crop Type</label>
+              <div class="select-container">
+                <div class="custom-select" id="typeSelect">
+                  <div class="selected">Select type<i class="ri-arrow-drop-down-line"></i></div>
+
+                  <div class="options">
+                    <div class="option" data-value="Cereal">Cereal</div>
+                    <div class="option" data-value="Vegetable">Vegetable</div>
+                    <div class="option" data-value="Fruit">Fruit</div>
+                    <div class="option" data-value="Pulse">Pulse</div>
+                    <div class="option" data-value="Oilseed">Oilseed</div>
+                  </div>
+                </div>
+                <input type="hidden" id="cropType" name="cropType" required>
+              </div>
+            </div>
+
+            <!-- Crop Season (custom dropdown) -->
+            <div class="mb-3">
+              <label for="cropSeason" class="form-label">Season</label>
+              <div class="select-container">
+                <div class="custom-select" id="seasonSelectAdd">
+                  <div class="selected">Select season <i class="ri-arrow-drop-down-line"></i></div>
+                  <div class="options">
+                    <div class="option" data-value="Kharif">Kharif</div>
+                    <div class="option" data-value="Rabi">Rabi</div>
+                    <div class="option" data-value="Zaid">Zaid</div>
+                    <div class="option" data-value="All Season">All Season</div>
+                  </div>
+                </div>
+                <input type="hidden" id="cropSeason" name="cropSeason" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="submit" id="cropSubmitBtn" class="btn btn-success">Add Crop</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Crop Modal -->
+  <div class="modal fade" id="editCropModal" tabindex="-1" aria-labelledby="editCropModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="editCropForm">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editCropModalLabel">Edit Crop</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="editIndex">
+
+            <!-- Crop Name -->
+            <div class="mb-3">
+              <label for="editCropName" class="form-label">Crop Name</label>
+              <input type="text" id="editCropName" class="form-control" required>
+            </div>
+
+            <!-- Crop Type (custom dropdown) -->
+            <div class="mb-3">
+              <label for="editCropType" class="form-label">Crop Type</label>
+              <div class="select-container">
+                <div class="custom-select" id="typeSelectEdit">
+                  <div class="selected">Select type</div>
+                  <div class="options">
+                    <div class="option" data-value="Cereal">Cereal</div>
+                    <div class="option" data-value="Vegetable">Vegetable</div>
+                    <div class="option" data-value="Fruit">Fruit</div>
+                    <div class="option" data-value="Pulse">Pulse</div>
+                    <div class="option" data-value="Oilseed">Oilseed</div>
+                  </div>
+                </div>
+                <input type="hidden" id="editCropType" name="editCropType" required>
+              </div>
+            </div>
+
+            <!-- Crop Season (custom dropdown) -->
+            <div class="mb-3">
+              <label for="editCropSeason" class="form-label">Season</label>
+              <div class="select-container">
+                <div class="custom-select" id="seasonSelectEdit">
+                  <div class="selected">Select season</div>
+                  <div class="options">
+                    <div class="option" data-value="Kharif">Kharif</div>
+                    <div class="option" data-value="Rabi">Rabi</div>
+                    <div class="option" data-value="Zaid">Zaid</div>
+                    <div class="option" data-value="All Season">All Season</div>
+                  </div>
+                </div>
+                <input type="hidden" id="editCropSeason" name="editCropSeason" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Update Crop</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Your custom scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/crops.js"></script>
+</body>
+
+</html>
