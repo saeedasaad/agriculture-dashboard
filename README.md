@@ -5,6 +5,10 @@ The purpose of this project is to evaluate understanding of **core front-end dev
 
 
 ---
+##  Live Demo
+[View Live Project](https://agriculture-dashboard-gules.vercel.app/)
+
+---
 
 ##  Application Idea
 A **front-end only dashboard** for managing agricultural data:
